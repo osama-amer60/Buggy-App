@@ -9,6 +9,8 @@
           v-model="form.firstName"
           placeholder="Enter Your First name"
           required
+          minlength="3"
+          maxlength="10"
         />
       </div>
 
@@ -20,6 +22,8 @@
           v-model="form.lastName"
           placeholder="Enter Your Last name"
           required
+          minlength="3"
+          maxlength="10"
         />
       </div>
 
@@ -32,6 +36,8 @@
           placeholder="Enter Your First name"
           required
           type="number"
+          min="18"
+          max="99"
         />
       </div>
 
@@ -55,6 +61,7 @@
           rows="3"
           v-model="form.bio"
           required
+          minlength="10"
         ></textarea>
       </div>
 
