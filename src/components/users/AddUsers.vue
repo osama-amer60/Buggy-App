@@ -133,14 +133,17 @@ export default {
     },
     getImageName(e: any) {
       const image = e.target.files[0];
-      const reader = new FileReader();
-
-      reader.readAsDataURL(image);
-
-      reader.addEventListener("load", () => {
-        console.log(reader.result);
-        this.form.image = reader.result;
-      });
+      if (image.size > 250000) {
+        alert(`File size is too big => max 250kB`);
+        return null;
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.addEventListener("load", () => {
+          console.log(reader.result);
+          this.form.image = reader.result;
+        });
+      }
     },
   },
   computed: {
