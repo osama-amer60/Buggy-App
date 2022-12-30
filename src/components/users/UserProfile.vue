@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row mt-5">
       <div class="col-4">
-        <img :src="userData.image" class="w-75" alt="" srcset="">
+        <img :src="userData.image" class="w-75" alt="" srcset="" />
       </div>
       <div class="col-8">
         <form>
@@ -67,21 +67,31 @@
   </div>
 </template>
 <script lang="ts">
+import { ref, onMounted, computed } from "vue";
 import { useUsersStore } from "@/store/users";
-import { mapState } from "pinia";
+import { useRoute } from 'vue-router'
+
 export default {
-  name: "profile",
-  data() {
+  setup() {
+    const userData = ref({});
+
+    // get the user's array from store
+    const usersList = computed(() => {
+      return useUsersStore().$state.usersList;
+    });
+
+    onMounted(() => {
+      // get route params
+      const route = useRoute()
+      const userId = Number(route.params.id);
+
+      // get the obj from the array
+      userData.value = usersList.value[userId];      
+    });
+
     return {
-      userData: {} as object,
+      userData,
     };
-  },
-  computed: {
-    ...mapState(useUsersStore, ["usersList"]),
-  },
-  mounted() {
-    const userId: any = this.$route.params.id;
-    this.userData = this.usersList[userId] as object;
   },
 };
 </script>

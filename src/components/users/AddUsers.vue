@@ -13,7 +13,6 @@
           maxlength="10"
         />
       </div>
-
       <div class="mb-3">
         <label for="lastName" class="form-label">lastName :</label>
         <input
@@ -26,7 +25,6 @@
           maxlength="10"
         />
       </div>
-
       <div class="mb-3">
         <label for="age" class="form-label">Age :</label>
         <input
@@ -40,7 +38,6 @@
           max="99"
         />
       </div>
-
       <div class="mb-3">
         <label for="email" class="form-label">E-mail</label>
         <input
@@ -52,7 +49,6 @@
           type="email"
         />
       </div>
-
       <div class="mb-3">
         <label for="bio" class="form-label">Bio :</label>
         <textarea
@@ -64,20 +60,18 @@
           minlength="10"
         ></textarea>
       </div>
-
       <div class="mb-3">
         <label for="image" class="form-label">Iamge : </label>
         <input
           class="form-control"
           v-on="form.image"
-          @change="getImageName"
+          @change="uploadImage"
           :required="!updatedUser"
           type="file"
           id="image"
           accept="image/*"
         />
       </div>
-
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">
           {{ updatedUser ? "Update User" : "Submit" }}
@@ -88,77 +82,73 @@
 </template>
 
 <script lang="ts">
-import { useUsersStore } from "@/store/users";
-import { mapActions, mapState } from "pinia";
-
-interface user {
-  firstName: string;
-  lastName: string;
-  age?: number | null;
-  email: string;
-  bio: string;
-  image: string;
-}
-
+import { ref, computed,onMounted  } from 'vue';
+import { useUsersStore } from '@/store/users';
 export default {
-  data(): any {
-    return {
-      // form:this.updatedUser? this.updatedUser: {
-      //   firstName:'',
-      //   lastName: '',
-      //   age: '',
-      //   email:'',
-      // },
+  setup() {
+    const form = ref({
+      firstName: '',
+      lastName: '',
+      age: null,
+      email: '',
+      bio: '',
+      image: '',
+    });
 
-      form: this.updatedUser || {
-        firstName: "",
-        lastName: "",
-        age: null,
-        email: "",
-        bio: "",
-        image: "",
-      },
-    };
-  },
-  methods: {
-    ...mapActions(useUsersStore, [
-      "updateShowList",
-      "addUser",
-      "displayUpdatedUser",
-    ]),
-    addUpdateUser() {
-      if (this.updatedUser) {
+    // get updatedUser from store
+    const updatedUser = computed(() => {
+      return useUsersStore().$state.updatedUser;
+    });
+
+    // get actions from store
+    const usersStore = useUsersStore();
+    const updateShowList = usersStore.updateShowList;
+    const addUser = usersStore.addUser;
+    const displayUpdatedUser = usersStore.displayUpdatedUser;
+
+
+    //submit form
+    const addUpdateUser = () => {
+      if (updatedUser.value) {
         // update user
-        this.displayUpdatedUser(this.form);
+        displayUpdatedUser(form.value);
       } else {
         // add user
-        this.addUser(this.form);
+        addUser(form.value);
       }
+      updateShowList();
+    }
 
-      this.updateShowList();
-      console.log(this.form);
-    },
-    getImageName(e: any) {
+    const uploadImage = (e: any) => {
       const image = e.target.files[0];
+
       if (image.size > 250000) {
         alert(`File size is too big => max 250kB`);
         return null;
-      } else {
+      } 
+      else {
         const reader = new FileReader();
         reader.readAsDataURL(image);
-        reader.addEventListener("load", () => {
+
+        reader.addEventListener('load', () => {
           console.log(reader.result);
-          this.form.image = reader.result;
+          form.value.image = reader.result;
         });
+
       }
-    },
-  },
-  computed: {
-    ...mapState(useUsersStore, ["updatedUser"]),
-  },
-  mounted() {
-    if (this.updatedUser) {
-      this.form = this.updatedUser;
+    }
+
+    onMounted (() => {
+      if (updatedUser.value) {
+        form.value = updatedUser.value;
+      }
+    });
+
+    return {
+      form,
+      updatedUser,
+      addUpdateUser,
+      uploadImage,      
     }
   },
 };

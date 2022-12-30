@@ -7,8 +7,8 @@ export const useUsersStore = defineStore("users", {
       showList: true ,
       usersList: localStorage.getItem("users")
         ? JSON.parse(localStorage.getItem("users")|| '')
-        : Array() as user[] | null,
-        updatedUser:null ,
+        : Array() as User[] | null,
+        updatedUser:null as null | User,  
         indexUpdatedUser:-1 as number,
     }
   },
@@ -16,7 +16,7 @@ export const useUsersStore = defineStore("users", {
     updateShowList() {
       this.showList = this.showList ? false : true;
     },
-    addUser(user:object) {
+    addUser(user:User) {
       this.usersList.push(user)
       localStorage.setItem('users',JSON.stringify(this.usersList))
     },
@@ -30,7 +30,7 @@ export const useUsersStore = defineStore("users", {
       this.showList= false  
       
     },
-    displayUpdatedUser(formData:object){
+    displayUpdatedUser(formData:User){
       this.usersList.splice(this.indexUpdatedUser, 1, formData);
       localStorage.setItem('users',JSON.stringify(this.usersList))
       this.updatedUser = null;
@@ -39,11 +39,11 @@ export const useUsersStore = defineStore("users", {
   },
 });
 
-interface user {
+interface User {
   firstName: string;
   lastName: string;
   age?: number | null;
   email: string;
   bio: string;
-  image: string;
+  image: string |null;
 }
