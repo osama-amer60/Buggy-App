@@ -9,7 +9,7 @@ The Crud Vue app helps users to add, edit or delete users and store them in loca
 - Pinia for global state management
 - Html, Sass, Bootstrap5, taypeScript, Fontawesome.
 
-## Featurs:
+## Features:
 
 - Add new users to the list.
 - Updating the user's data.
