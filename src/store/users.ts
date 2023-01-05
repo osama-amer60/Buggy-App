@@ -45,5 +45,5 @@ interface User {
   age?: number | null;
   email: string;
   bio: string;
-  image: string |null;
+  image: string ;
 }

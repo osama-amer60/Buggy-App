@@ -1,19 +1,17 @@
-# refact-task-3
+# CRUD Vue App
 
-## Project setup
-```
-npm install
-```
+The Crud Vue app helps users to add, edit or delete users and store them in localstorage.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Tools:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Vue router, Dynamic routing. 
+- Components, Methods, Computed, Directives, Modifiers.
+- Pinia for global state management
+- Html, Sass, Bootstrap5, taypeScript, Fontawesome.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Featurs:
+
+- Add new users to the list.
+- Updating the user's data.
+- Deleting a user.
+- keeping users list saved in local Storage

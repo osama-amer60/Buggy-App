@@ -31,7 +31,7 @@
             </template>
           </tbody>
         </table>
-        <p v-else-if="usersList.length === 0">No users found...</p>
+        <p v-else-if="usersList.length === 0" class="text-danger h3 fw-bold m-5"> No users found...</p>
 
 
 

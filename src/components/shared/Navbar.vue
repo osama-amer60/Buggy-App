@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <RouterLink class="navbar-brand" to="/">CRUD</RouterLink>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,7 +19,7 @@
             <RouterLink class="nav-link" to="/">Home</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/users">Users</RouterLink>
+            <RouterLink class="nav-link" to="/about">About</RouterLink>
           </li>
         </ul>
       </div>

@@ -82,17 +82,17 @@
 </template>
 
 <script lang="ts">
-import { ref, computed,onMounted  } from 'vue';
-import { useUsersStore } from '@/store/users';
+import { ref, computed, onMounted } from "vue";
+import { useUsersStore } from "@/store/users";
 export default {
   setup() {
     const form = ref({
-      firstName: '',
-      lastName: '',
-      age: null,
-      email: '',
-      bio: '',
-      image: '',
+      firstName: "",
+      lastName: "",
+      age: null as number | null,
+      email: "",
+      bio: "",
+      image: "" as string,
     });
 
     // get updatedUser from store
@@ -106,7 +106,6 @@ export default {
     const addUser = usersStore.addUser;
     const displayUpdatedUser = usersStore.displayUpdatedUser;
 
-
     //submit form
     const addUpdateUser = () => {
       if (updatedUser.value) {
@@ -117,7 +116,7 @@ export default {
         addUser(form.value);
       }
       updateShowList();
-    }
+    };
 
     const uploadImage = (e: any) => {
       const image = e.target.files[0];
@@ -125,22 +124,28 @@ export default {
       if (image.size > 250000) {
         alert(`File size is too big => max 250kB`);
         return null;
-      } 
-      else {
+      } else {
         const reader = new FileReader();
         reader.readAsDataURL(image);
 
-        reader.addEventListener('load', () => {
-          console.log(reader.result);
-          form.value.image = reader.result;
+        reader.addEventListener("load", () => {
+          if (typeof reader.result === "string") {
+            form.value.image = reader.result;
+          }
         });
-
       }
-    }
+    };
 
-    onMounted (() => {
+    onMounted(() => {
       if (updatedUser.value) {
-        form.value = updatedUser.value;
+        form.value = {
+          firstName: updatedUser.value.firstName || "",
+          lastName: updatedUser.value.lastName || "",
+          age: updatedUser.value.age || null,
+          email: updatedUser.value.email || "",
+          bio: updatedUser.value.bio || "",
+          image: updatedUser.value.image || "",
+        };
       }
     });
 
@@ -148,8 +153,8 @@ export default {
       form,
       updatedUser,
       addUpdateUser,
-      uploadImage,      
-    }
+      uploadImage,
+    };
   },
 };
 </script>
